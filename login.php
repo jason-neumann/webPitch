@@ -1,13 +1,19 @@
 <?php
-var_dump($_POST);
+if(isset($_SESSION['userId'])) {
+	header('Location:index.php');
+	exit;
+}
+
+$username = $errorMsg = '';
+
 	if(count($_POST)) {
-		$db = new PDO('mysql:host=localhost;dbname=pitch','root','4rfvbgt5');
 		$username = $_POST['username'];
 		$password = md5($_POST['password']);
-		$statement = $db->prepare("SELECT id FROM users WHERE name = :username AND password = :password");
+		$statement = Utils::$db->prepare("SELECT id FROM users WHERE name = :username AND password = :password");
 		$statement->execute(array(':username' =>$username, ':password' => $password));
 		$id = $statement->fetchColumn();
 		if($id) {
+			$_SESSION['userId'] = $id;
 			header('Location:index.php');
 			exit;
 		} else {
