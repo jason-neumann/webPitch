@@ -1,4 +1,8 @@
 <?php
+function __autoload($class) {
+	require_once(getcwd() . '/lib/' . str_replace('\\','/',$class) . '.php');
+}
+
 class Utils {
 	static $db;
 
