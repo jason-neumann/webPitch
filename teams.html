@@ -1,0 +1,78 @@
+﻿<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+<style>
+.box {
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 50%;
+    max-width: 150px;
+    text-align: center;
+}
+
+.teamSelection {
+    max-width:400px;
+}
+.availableUsers {
+    float:left;
+}
+
+.team1, .team2 {
+    float:right;
+    padding:10px;
+    margin-bottom: 10px;
+}
+
+.user {
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
+    background: #b8c6df;
+    background: -moz-linear-gradient(top, #b8c6df 0%, #6d88b7 100%);
+    background: -webkit-linear-gradient(top, #b8c6df 0%,#6d88b7 100%);
+    background: linear-gradient(to bottom, #b8c6df 0%,#6d88b7 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b8c6df', endColorstr='#6d88b7',GradientType=0 );  
+}
+
+.user .add {
+    float: right;
+}
+</style>
+</head>
+<body>
+<div class=teamSelection>
+	<div class='box availableUsers'>
+		Available Players
+		<div class='user' data-id=1>
+			Mike
+			<span class="fa fa-arrow-circle-right add"></span>
+		</div>
+		<div class='user' data-id=2>
+			Julie
+			<span class="fa fa-arrow-circle-right add"></span>
+		</div>
+		<div class='user' data-id=3>
+			Danny
+			<span class="fa fa-arrow-circle-right add"></span>
+		</div>
+		<div class='user' data-id=4>
+			OtherPersonThat
+			<span class="fa fa-arrow-circle-right add"></span>
+		</div>
+		<div class="user" data-id=5>
+			Stupid guy with a crazy long name
+			<span class="fa fa-arrow-circle-right add"></span>
+		</div>
+	</div>
+	<div class="box team1">
+		Team 1
+	</div>
+	<div class="box team2">
+		Team 2
+	</div>
+</div>
+</body>
+</html>
