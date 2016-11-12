@@ -35,5 +35,8 @@ require '/var/www/html/lib/views/header.phtml';
 		<div class='user empty'></div>
 	</div>
 </div>
+<div class='box submit'>
+	Create Game!
+</div>
 </body>
 </html>

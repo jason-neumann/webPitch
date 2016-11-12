@@ -45,6 +45,15 @@
 	min-height: 20px;
 }
 
+.submit {
+	float :left;
+	background: #f1da36;
+	background: linear-gradient(to bottom, #f1da36 0%,#fefcea 100%);
+	margin-top: 10px;
+	padding: 5px 0;
+	display: none;
+}
+
 .user .add {
 /**	float: right; need to figure out how to get these to anchor right at some point**/
 }
