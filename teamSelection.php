@@ -1,6 +1,6 @@
 <?php
 $js = array('/statics/teamSelection.js');
-require '/var/www/html/lib/views/header.phtml';
+require VIEWS . 'header.phtml';
 ?>
 <body>
 	<?php
