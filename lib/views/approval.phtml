@@ -1,1 +1,16 @@
 
+<?php if(!$this->_players[\Utils::$userInfo['id']]['approves']) { ?>
+Ready to play?
+<div class='box playerApproves'>YES!</div>
+<div class='box playerRejects'>I don't want to play with them</div>
+<?php
+	}
+/*********************
+ * need to adjust this to look like the player selection page with team 1 vs team 2 so the user knows who is playing with who.
+ *********************/
+	foreach ($this->_players as $player) {
+?>
+	<div class='user <?php echo $player['approved'] ? 'approved':''?>'>
+		<?php echo $player['approved'] ? $player['name'] . ' is ready to play!' : 'Waiting for ' . $player['name'] . ' to accept'?>
+	</div>
+<?php } ?>
