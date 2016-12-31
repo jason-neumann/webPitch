@@ -1,7 +1,3 @@
-<pre><?php
-/**
- * create the game controller
- * 
- */
+<?php
 $controller = new \Controllers\Game($_GET['gameId']);
 $controller->render();

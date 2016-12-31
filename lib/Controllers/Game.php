@@ -1,24 +1,15 @@
 <?php
 namespace Controllers;
 
-class Game {
+class Game extends \Controller{
 	/**
 	 * @var array
 	 */
 	private $_gameInfo = array();
 	
-	/**
-	 * @var string 
-	 */
-	private $_view = '';
-	
 	public function __construct(int $gameId) {
 		$this->_gameInfo = \Models\Games::getGameDetails($gameId);
 		$this->_setView();
-	}
-	
-	public function render() {
-		var_dump($this->_view);
 	}
 	
 	private function _setView(){
