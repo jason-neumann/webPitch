@@ -1,23 +1,60 @@
-
-<?php if(!$this->_players[\Utils::$userInfo['id']]['approves']) { ?>
+<input type="hidden" id="gameId" value="<?php echo $this->_gameInfo['id']; ?>" />
+<input type="hidden" id="playerNumber" value="<?php echo $this->_playerNumber; ?>" />
+<?php
+if(!$this->_gameInfo['player' . $this->_playerNumber . 'Approves']) { ?>
 <h3>Ready to play?</h3>
-<div class=teamSelection>
 	<div class='box playerApproves'>YES!</div>
-	<div class='box playerRejects'>I don't want to play with them</div>
+	<div class='box playerRejects'>I don't want to play with them.</div>
 	<div class='clear'></div>
-	<div class="box team1">
-		Team 1
-		<div class='box user'>
-<!--			neubie <br/> Are you in? -->
-			neubie <br/> Waiting for others.
-		</div>
-		<div class='box user'>elocin <br/> Waiting for response.</div>
+<?php } ?>
+<div class="box team1">
+	Team 1
+	<div class='box user'>
+		<?php
+			$this->renderChild(
+				'approvalStatus.phtml',
+				array(
+					'name' => $this->_players[$this->_gameInfo['player1Id']]['name'],
+					'approved' => true //the first player always has approved because they created the game
+				)
+			);
+		?>
 	</div>
-
-	<div class="box team2">
-		Team 2
-		<div class='box user'>joolie <br/>Ready to Play!</div>
-		<div class='box user'>salmon <br/>Waiting for response.</div>
+	<div class='box user'>
+		<?php
+			$this->renderChild(
+				'approvalStatus.phtml',
+				array(
+					'name' => $this->_players[$this->_gameInfo['player2Id']]['name'],
+					'approved' => $this->_gameInfo['player2Approves']
+				)
+			);
+		?>
 	</div>
 </div>
-<?php } ?>
+
+<div class="box team2">
+	Team 2
+	<div class='box user'>
+				<?php
+			$this->renderChild(
+				'approvalStatus.phtml',
+				array(
+					'name' => $this->_players[$this->_gameInfo['player3Id']]['name'],
+					'approved' => $this->_gameInfo['player3Approves']
+				)
+			);
+		?>
+	</div>
+	<div class='box user'>
+		<?php
+			$this->renderChild(
+				'approvalStatus.phtml',
+				array(
+					'name' => $this->_players[$this->_gameInfo['player4Id']]['name'],
+					'approved' => $this->_gameInfo['player4Approves']
+				)
+			);
+		?>
+	</div>
+</div>

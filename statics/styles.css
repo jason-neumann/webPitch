@@ -19,7 +19,7 @@
 .availableUsers {
 	float:left;
 	height: 300px;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .teamSelection .team1 {

@@ -67,4 +67,23 @@ FROM
 		$statement->execute(array(':gameId' => $gameId));
 		return $statement->fetch(\PDO::FETCH_ASSOC);
 	}
+	
+	/**
+	 * 
+	 * @param int $gameId
+	 * @param int $playerNumber
+	 * @param bool $approved
+	 */
+	static function setPlayerApproval(int $gameId, int $playerNumber, bool $approved) {
+		$statement = \Utils::$db->prepare("
+			UPDATE
+				games
+			SET
+				player" . $playerNumber . "Approves = :approved
+			WHERE
+				id = :gameId
+		");
+		$statement->execute(array(':gameId' => $gameId, ':approved' => $approved));
+		return $statement->fetch(\PDO::FETCH_ASSOC);
+	}
 }

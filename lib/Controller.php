@@ -7,13 +7,13 @@ abstract class Controller {
 	 * list of javascript files to include
 	 * @var array 
 	 */
-	private $_js = array();
+	protected $_js = array();
 	
 	/**
 	 * list of css files to include
 	 * @var array 
 	 */
-	private $_css = array();
+	protected $_css = array();
 	
 	/**
 	 * the main
@@ -27,7 +27,15 @@ abstract class Controller {
 		include(VIEWS . 'footer.phtml');
 	}
 	
+	public function renderChild($template, $model) {
+		include(VIEWS . $template);
+	}
+	
 	public function addJS($file){
 		$this->_js[]=$file;
+	}
+	
+	public function addCSS($file) {
+		$this->_css[]=$file;
 	}
 }

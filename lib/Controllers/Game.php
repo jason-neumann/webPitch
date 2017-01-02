@@ -5,17 +5,38 @@ class Game extends \Controller{
 	/**
 	 * @var array
 	 */
-	private $_gameInfo = array();
+	protected $_gameInfo = array();
 	
+	/**
+	 * the number (1-4) the player is in this particular game
+	 * @var int 
+	 */
+	protected $_playerNumber = 0;
+
+	/**
+	 * list of the players in the game that aren't the user
+	 * @var array 
+	 */
+	protected $_players = array();
+
 	public function __construct(int $gameId) {
 		$this->_gameInfo = \Models\Games::getGameDetails($gameId);
-		$this->_setView();
+		$this->_players = \Models\Players::getPlayersInfo(array(
+			$this->_gameInfo['player1Id'],
+			$this->_gameInfo['player2Id'],
+			$this->_gameInfo['player3Id'],
+			$this->_gameInfo['player4Id'],
+		));
+		$this->_setViewAndStyles();
+		$this->_setPlayerNumber();
 	}
 	
-	private function _setView(){
+	protected function _setViewAndStyles(){
 		//enum('APPROVAL','BIDDING','DRAW_UP','PLAYING','FINISHED')
 		switch ($this->_gameInfo['gameState']) {
 			case 'APPROVAL':
+				$this->addCSS('/statics/approval.css');
+				$this->addJS('/statics/approval.js');
 			case 'BIDDING':
 			case 'DRAW_UP':
 			case 'PLAYING':
@@ -24,6 +45,23 @@ class Game extends \Controller{
 				break;
 			default:
 				throw new Exception('No valid game state found');
+		}
+	}
+	
+	protected function _setPlayerNumber() {
+		if(!$this->_gameInfo['id']) {
+			throw new \Exception('Game info not set. Cannot determine player number');
+		}
+		
+		for ($i = 1; $i <= 4; $i++) {
+			if($this->_gameInfo['player' . $i . 'Id'] == \Utils::$userInfo['id']) {
+				$this->_playerNumber = $i;
+				break;
+			}
+		}
+		
+		if($this->_playerNumber == 0) {
+			throw new \Exception('Current player is not a part of this game.');
 		}
 	}
 }
