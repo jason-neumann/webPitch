@@ -1,8 +1,8 @@
 <?php
 	echo $model['name'];
 	if ($model['approved']) {
-		echo '<br/>Ready to play!';
+		echo '<br/><span class="status">Ready to play!</span>';
 	} else {
-		echo '<br/>Waiting for response.';
+		echo '<br/><span class="status">Waiting for response.</span>';
 	}
 ?>

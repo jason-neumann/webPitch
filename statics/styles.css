@@ -6,6 +6,9 @@
 	width: 42%;
 	text-align: center;
 }
+.button {
+	cursor: pointer;
+}
 .clear {
 	clear:both;
 }

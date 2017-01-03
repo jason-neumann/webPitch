@@ -9,9 +9,9 @@ $(document).ready(function(){
 				'approved':$(this).hasClass('playerApproves')
 			},
 			function(response){
-				
-			},
-			'json'
+				$('.approvalBox').html("<h2>Great! Check back later to see if everyone is ready.</h2>")
+				$('[data-id=' + $('#playerId').val() + '] .status').html('Ready to Play!');
+			}
 		);
 	});
 });

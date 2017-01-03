@@ -1,15 +1,19 @@
 <input type="hidden" id="gameId" value="<?php echo $this->_gameInfo['id']; ?>" />
 <input type="hidden" id="playerNumber" value="<?php echo $this->_playerNumber; ?>" />
 <?php
-if(!$this->_gameInfo['player' . $this->_playerNumber . 'Approves']) { ?>
-<h3>Ready to play?</h3>
-	<div class='box playerApproves'>YES!</div>
-	<div class='box playerRejects'>I don't want to play with them.</div>
+if($this->_playerNumber != 1 && !$this->_gameInfo['player' . $this->_playerNumber . 'Approves']) { ?>
+<div class="approvalBox">
+	<h3>Ready to play?</h3>
+	<div class='box button playerApproves'>YES!</div>
+	<div class='box button playerRejects'>I don't want to play with them.</div>
 	<div class='clear'></div>
+</div>
+<?php } else { ?>
+	<h3>Waiting for everyone to agree to play. </h3>
 <?php } ?>
 <div class="box team1">
 	Team 1
-	<div class='box user'>
+	<div class='box user' data-id="<?php echo $this->_gameInfo['player1Id']; ?>">
 		<?php
 			$this->renderChild(
 				'approvalStatus.phtml',
@@ -20,7 +24,7 @@ if(!$this->_gameInfo['player' . $this->_playerNumber . 'Approves']) { ?>
 			);
 		?>
 	</div>
-	<div class='box user'>
+	<div class='box user' data-id="<?php echo $this->_gameInfo['player2Id']; ?>">
 		<?php
 			$this->renderChild(
 				'approvalStatus.phtml',
@@ -35,7 +39,7 @@ if(!$this->_gameInfo['player' . $this->_playerNumber . 'Approves']) { ?>
 
 <div class="box team2">
 	Team 2
-	<div class='box user'>
+	<div class='box user' data-id="<?php echo $this->_gameInfo['player3Id']; ?>">
 				<?php
 			$this->renderChild(
 				'approvalStatus.phtml',
@@ -46,7 +50,7 @@ if(!$this->_gameInfo['player' . $this->_playerNumber . 'Approves']) { ?>
 			);
 		?>
 	</div>
-	<div class='box user'>
+	<div class='box user' data-id="<?php echo $this->_gameInfo['player4Id']; ?>">
 		<?php
 			$this->renderChild(
 				'approvalStatus.phtml',
