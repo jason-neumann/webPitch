@@ -8,7 +8,7 @@
 	foreach(\Models\Games::getPlayerGamesWithTeamNames($_SESSION['userId']) as $game) {
 ?>
 		<a href="play.php?gameId=<?php echo $game['gameId'];?>">
-			You and <?php echo $game['partnerName'] . ' versus ' . $game['opponents'];?>
+			You and <?php echo $game['partnerName'] . ' versus ' . $game['opponents'];?> - <?php echo $game['gameState']; ?> 
 		</a><br/>
 <?php
 	}

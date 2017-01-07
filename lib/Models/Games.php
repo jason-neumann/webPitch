@@ -5,11 +5,13 @@ class Games {
 	static function getPlayerGamesWithTeamNames(int $playerId) {
 		$statement = \Utils::$db->prepare("SELECT 
 	gameId,
-    p2.name AS partnerName,
-    CONCAT(p3.name, ' & ', p4.name) AS opponents
+	gameState,
+	p2.name AS partnerName,
+	CONCAT(p3.name, ' & ', p4.name) AS opponents
 FROM
 	((SELECT
 		id AS gameId,
+		gameState,
 		player2Id AS partnerId,
 		player3Id AS opponent1Id,
 		player4Id AS opponent2Id
@@ -19,6 +21,7 @@ FROM
 	UNION
 	(SELECT
 		id AS gameId,
+		gameState,
 		player1Id AS partnerId,
 		player3Id AS opponent1Id,
 		player4Id AS opponent2Id
@@ -28,6 +31,7 @@ FROM
 	UNION
 	(SELECT
 		id AS gameId,
+		gameState,
 		player4Id AS partnerId,
 		player1Id AS opponent1Id,
 		player2Id AS opponent2Id
@@ -37,6 +41,7 @@ FROM
 	UNION
 	(SELECT
 		id AS gameId,
+		gameState,
 		player3Id AS partnerId,
 		player1Id AS opponent1Id,
 		player2Id AS opponent2Id
@@ -51,9 +56,63 @@ FROM
 	}
 	
 	/**
+	 * deal 9 cards to each player, store them in the db and return them
+	 * @param int $gameId
+	 * @param array $players
+	 */
+	static function deal(int $gameId, array $players) {
+		$statement = \Utils::$db->prepare("
+			INSERT INTO hands
+				(gameId, rank, suit)
+			SELECT 
+				:gameId as gameId, rank, suit
+			FROM
+				cards
+			ORDER BY RAND()
+			LIMIT 36");
+		$statement->execute(array(':gameId' => $gameId));
+		$statement = \Utils::$db->prepare("
+			UPDATE
+				hands
+			SET
+				userId=:userId
+			WHERE
+				gameId=:gameId
+				AND userId IS NULL
+			LIMIT 9");
+		$statement->execute(array(
+			':gameId' => $gameId,
+			':userId' => $players[0]
+		));
+		$statement->execute(array(
+			':gameId' => $gameId,
+			':userId' => $players[1]
+		));
+		$statement->execute(array(
+			':gameId' => $gameId,
+			':userId' => $players[2]
+		));
+		$statement->execute(array(
+			':gameId' => $gameId,
+			':userId' => $players[3]
+		));
+		$statement = \Utils::$db->prepare("SELECT * FROM hands WHERE gameId=:gameId");
+		$statement->execute(array(':gameId' => $gameId));
+		return $statement->fetchAll(\PDO::FETCH_ASSOC);
+	}
+	
+	/**
+	 * 
+	 * @param string $status
+	 */
+	static function updateGameState(string $state) {
+		//run an update query to set the game state
+	}
+	
+	/**
 	 * 
 	 * @param int $gameId
-	 * @return type
+	 * @return array
 	 */
 	static function getGameDetails(int $gameId) {
 		$statement = \Utils::$db->prepare("

@@ -58,6 +58,6 @@ INSERT INTO cards VALUES
   ('Jack', 'Clubs'),
   ('Queen', 'Clubs'),
   ('King', 'Clubs'),
-  ('Ace', 'Clubs')
+  ('Ace', 'Clubs'),
   ('Joker', 'Little'),
   ('Joker', 'Big');
