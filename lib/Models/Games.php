@@ -96,17 +96,30 @@ FROM
 			':gameId' => $gameId,
 			':userId' => $players[3]
 		));
-		$statement = \Utils::$db->prepare("SELECT * FROM hands WHERE gameId=:gameId");
+	}
+	
+	static function getHands(int $gameId) {
+		$return = array();
+		$statement = \Utils::$db->prepare(
+			"SELECT * FROM hands WHERE gameId=:gameId"
+		);
 		$statement->execute(array(':gameId' => $gameId));
-		return $statement->fetchAll(\PDO::FETCH_ASSOC);
+		while($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
+			$return[$row['userId']][] = $row;
+		}
+		return $return;
 	}
 	
 	/**
 	 * 
-	 * @param string $status
+	 * @param int $gameId
+	 * @param string $state
 	 */
-	static function updateGameState(string $state) {
-		//run an update query to set the game state
+	static function updateGameState(int $gameId, string $state) {
+		$statement = \Utils::$db->prepare(
+			"UPDATE games SET gameState = :state WHERE id = :gameId"
+		);
+		$statement->execute(array(':gameId' => $gameId, ':state' => $state));
 	}
 	
 	/**

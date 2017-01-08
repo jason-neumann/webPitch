@@ -20,7 +20,7 @@ class Ajax {
 		
 		$gameInfo = \Models\Games::getGameDetails($this->_data['gameId']);
 		if($gameInfo['player2Approves'] && $gameInfo['player3Approves'] && $gameInfo['player4Approves']) {
-			$cards = \Models\Games::deal(
+			\Models\Games::deal(
 				$this->_data['gameId'],
 				array(
 					$gameInfo['player1Id'],
@@ -29,9 +29,7 @@ class Ajax {
 					$gameInfo['player4Id']
 				)
 			);
-			var_dump($cards);
-			die;
-			\Models\Games::updateGameState('BIDDING');
+			\Models\Games::updateGameState($this->_data['gameId'], 'BIDDING');
 			
 			//instantiate the game controller,
 			//have it build the bidding view,
