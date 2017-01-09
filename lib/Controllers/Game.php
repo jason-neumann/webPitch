@@ -18,6 +18,12 @@ class Game extends \Controller{
 	 * @var array 
 	 */
 	protected $_players = array();
+	
+	/**
+	 *
+	 * @var array 
+	 */
+	protected $_hands = array();
 
 	public function __construct(int $gameId) {
 		$this->_gameInfo = \Models\Games::getGameDetails($gameId);
@@ -29,17 +35,32 @@ class Game extends \Controller{
 		));
 		$this->_setViewAndStyles();
 		$this->_setPlayerNumber();
+		if($this->_gameInfo['gameState'] != 'APPROVAL') {
+			$this->_hands = \Models\Games::getHands($gameId);
+		}
+	}
+	
+	public function getJSONgameInfo(){
+		return json_encode(array(
+			'players' => $this->_players,
+			'hands' => $this->_hands,
+			'gameInfo' => $this->_gameInfo
+		));
 	}
 	
 	protected function _setViewAndStyles(){
 		//enum('APPROVAL','BIDDING','DRAW_UP','PLAYING','FINISHED')
 		switch ($this->_gameInfo['gameState']) {
-			case 'APPROVAL':
-				$this->addCSS('/statics/approval.css');
-				$this->addJS('/statics/approval.js');
 			case 'BIDDING':
 			case 'DRAW_UP':
 			case 'PLAYING':
+				$this->_view = VIEWS . 'gameBoard.phtml';
+				$this->addCSS('/statics/play.css');
+				$this->addJS('/statics/play.js');
+				break;
+			case 'APPROVAL':
+				$this->addCSS('/statics/approval.css');
+				$this->addJS('/statics/approval.js');
 			case 'FINISHED':
 				$this->_view = VIEWS . strtolower($this->_gameInfo['gameState']) . '.phtml';
 				break;
