@@ -41,9 +41,12 @@ class Game extends \Controller{
 	}
 	
 	public function getJSONgameInfo(){
+		//this should only return gameInfo relevant to the current player
+		//need info on the player id (or rework the html to always have this player at the bottom)
 		return json_encode(array(
 			'players' => $this->_players,
-			'hands' => $this->_hands,
+			'playerId' => \Utils::$userInfo['id'],
+			'hand' => $this->_hands[\Utils::$userInfo['id']],
 			'gameInfo' => $this->_gameInfo
 		));
 	}

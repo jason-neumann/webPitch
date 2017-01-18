@@ -55,6 +55,24 @@ FROM
 		return $statement->fetchAll(\PDO::FETCH_ASSOC);
 	}
 	
+	static function startRound(int $gameId, int $roundNumber) {
+		$statement = \Utils::$db->prepare("
+			INSERT INTO rounds (gameId, roundNumber, dealerId)
+			SELECT 
+				 id,
+				 :roundNumber AS roundNumber,
+				 player" . $roundNumber . "Id AS dealerId
+			FROM
+				 games
+			WHERE
+				 id = :gameId;
+		");
+		$statement->execute(array(
+			':gameId' => $gameId,
+			':roundNumber' => $roundNumber
+		));
+	}
+	
 	/**
 	 * deal 9 cards to each player, store them in the db and return them
 	 * @param int $gameId
