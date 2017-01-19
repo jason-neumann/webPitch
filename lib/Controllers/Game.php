@@ -21,6 +21,25 @@ class Game extends \Controller{
 	
 	/**
 	 *
+	 * @var int 
+	 */
+	protected $_partnerId;
+	
+	/**
+	 *
+	 * @var int 
+	 */
+	protected $_opponentLeftId;
+	
+	/**
+	 *
+	 * @var int 
+	 */
+	protected $_opponentRightId;
+
+
+	/**
+	 *
 	 * @var array 
 	 */
 	protected $_hands = array();
@@ -35,6 +54,7 @@ class Game extends \Controller{
 		));
 		$this->_setViewAndStyles();
 		$this->_setPlayerNumber();
+		$this->_setOtherPlayerIds();
 		if($this->_gameInfo['gameState'] != 'APPROVAL') {
 			$this->_hands = \Models\Games::getHands($gameId);
 		}
@@ -86,6 +106,35 @@ class Game extends \Controller{
 		
 		if($this->_playerNumber == 0) {
 			throw new \Exception('Current player is not a part of this game.');
+		}
+	}
+	
+	/**
+	 * set partner and opponent ids so we can
+	 * place their cards properly on the table
+	 */
+	protected function _setOtherPlayerIds(){
+		switch ($this->_playerNumber) {
+			case 1:
+				$this->_partnerId = $this->_gameInfo['player2Id'];
+				$this->_opponentLeftId = $this->_gameInfo['player3Id'];
+				$this->_opponentRightId = $this->_gameInfo['player4Id'];
+				break;
+			case 2:
+				$this->_partnerId = $this->_gameInfo['player' . $this->_gameInfo['player1Id'] . 'Id'];
+				$this->_opponentLeftId = $this->_gameInfo['player' . $this->_gameInfo['player4Id'] . 'Id'];
+				$this->_opponentRightId = $this->_gameInfo['player' . $this->_gameInfo['player3Id'] . 'Id'];
+				break;
+			case 3:
+				$this->_partnerId = $this->_gameInfo['player' . $this->_gameInfo['player4Id'] . 'Id'];
+				$this->_opponentLeftId = $this->_gameInfo['player' . $this->_gameInfo['player2Id'] . 'Id'];
+				$this->_opponentRightId = $this->_gameInfo['player' . $this->_gameInfo['player1Id'] . 'Id'];
+				break;
+			case 4:
+				$this->_partnerId = $this->_gameInfo['player' . $this->_gameInfo['player3Id'] . 'Id'];
+				$this->_opponentLeftId = $this->_gameInfo['player' . $this->_gameInfo['player1Id'] . 'Id'];
+				$this->_opponentRightId = $this->_gameInfo['player' . $this->_gameInfo['player2Id'] . 'Id'];
+				break;
 		}
 	}
 }
